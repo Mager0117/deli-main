@@ -368,42 +368,42 @@ app.put('/editUser/:user_id', (req, res) => {
   });
 });
 
-// API Endpoint สำหรับการเพิ่มหมายเลขลอตเตอรี่ไปยังตะกร้า
-app.post('/lottoToCart/:user_id', (req, res) => {
-  const user_id = req.params.user_id; // รับค่า user_id จากพารามิเตอร์ใน URL
-  const { lotto_id } = req.body; // รับค่า lotto_id จาก body
+// // API Endpoint สำหรับการเพิ่มหมายเลขลอตเตอรี่ไปยังตะกร้า
+// app.post('/lottoToCart/:user_id', (req, res) => {
+//   const user_id = req.params.user_id; // รับค่า user_id จากพารามิเตอร์ใน URL
+//   const { lotto_id } = req.body; // รับค่า lotto_id จาก body
 
-  if (!user_id || !lotto_id) {
-    return res.status(400).json({ error: 'user_id and lotto_id are required' });
-  }
+//   if (!user_id || !lotto_id) {
+//     return res.status(400).json({ error: 'user_id and lotto_id are required' });
+//   }
 
-  const checkLottoQuery = 'SELECT * FROM lotto_nunber WHERE lotto_id = ?';
-  db.get(checkLottoQuery, [lotto_id], (err, row) => {
-    if (err) {
-      console.error('Error checking lotto number:', err);
-      return res.status(500).json({ error: 'Failed to check lotto number' });
-    }
+//   const checkLottoQuery = 'SELECT * FROM lotto_nunber WHERE lotto_id = ?';
+//   db.get(checkLottoQuery, [lotto_id], (err, row) => {
+//     if (err) {
+//       console.error('Error checking lotto number:', err);
+//       return res.status(500).json({ error: 'Failed to check lotto number' });
+//     }
 
-    if (!row) {
-      return res.status(404).json({ error: 'Lotto number not found' });
-    }
+//     if (!row) {
+//       return res.status(404).json({ error: 'Lotto number not found' });
+//     }
 
-    const updateQuery = `
-      UPDATE lotto_nunber
-      SET user_id = ?
-      WHERE lotto_id = ?
-    `;
+//     const updateQuery = `
+//       UPDATE lotto_nunber
+//       SET user_id = ?
+//       WHERE lotto_id = ?
+//     `;
 
-    db.run(updateQuery, [user_id, lotto_id], function (err) {
-      if (err) {
-        console.error('Error updating lotto number:', err);
-        return res.status(500).json({ error: 'Failed to update lotto number' });
-      }
+//     db.run(updateQuery, [user_id, lotto_id], function (err) {
+//       if (err) {
+//         console.error('Error updating lotto number:', err);
+//         return res.status(500).json({ error: 'Failed to update lotto number' });
+//       }
 
-      res.json({ message: 'Lotto number updated successfully', result: this.changes });
-    });
-  });
-});
+//       res.json({ message: 'Lotto number updated successfully', result: this.changes });
+//     });
+//   });
+// });
 
 app.post('/soldLotto/:user_id', (req, res) => {
   const user_id = req.params.user_id;
